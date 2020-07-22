@@ -1,0 +1,23 @@
+{% extends "mpgestore.html" %}
+
+{% block sottogestore %}
+
+    <!--semplice pagina di login riuscita richiamabile anche cliccando sul logo presente nella navbar-->
+    <div class="jumbotron">
+		<h1 class="display-4">Benvenuto {{ nome }} {{ cognome }}!</h1>
+	</div>
+    {% for o in lista %}<!--per ogni sala viene stampata una card che indica se è occupata o se è libera. Nel caso in cui sia occupata si specifica la proiezione -->
+        <div class="card-body">
+                <div class="card">
+                    <div class="card-header"><h4>Sala {{ o.idSala }}</h4></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class ="text-left">Proiezione in corso: {{ o.titolo }} (iniziata in orario {{ o.inizio }})</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}

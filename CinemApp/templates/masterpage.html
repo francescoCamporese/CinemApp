@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CinemApp</title>
+		<link rel="icon" href="static/img/favicon.ico">
+        <meta charset="utf-8"><!--per gli accenti-->
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+		<!--attenzione!!!Deve rimanere in questo ordine, sono i vari import riguardanti bootstrap e in generale grafica-->
+		<script src="/static/bootstrap/jquery-3.5.1.min.js"></script>
+		<script src="/static/bootstrap/popper.min.js"></script>
+		<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="/static/stili/style.css" type="text/css" media="screen">
+	</head>
+    <body>
+    	<div class="container-fluid"><!--div contenente le varie pagine con le quali interagisco in modo da renderle responsive e far vedere loro quel che ho scritto in questo file-->
+        	{% block sottomasterpage %}
+        	{% endblock %}
+        </div>
+    </body>
+</html>

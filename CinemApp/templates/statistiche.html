@@ -1,0 +1,64 @@
+{% extends "mpgestore.html" %}
+
+{% block sottogestore %}
+
+	<div class="jumbotron">
+		<h1 class="display-4">Statistiche</h1>
+		<p class="lead">Vedi la quantità di incassi totale (per tutti i film) ed il numero di biglietti venduti con le 10 proiezioni più recenti che hanno portato degli incassi e con le proiezioni dei film contenenti il testo cercato</p>
+	</div>
+	<div class="row">
+		<div class="col">
+			<form class="form-inline" method="POST"><!--inserire parte del titolo del/dei film di cui si vogliono vedere le statistiche-->
+				<input name="filmCercato" class="form-control mr-sm-2" type="search" id="filmCercato" placeholder="Cerca film..." aria-label="Search" required="required">
+				<button class="btn btn-primary" type="submit">Cerca</button>
+			</form>
+		</div>
+		<div class="col">
+			<h2 class="text-right"><!--totale di soldi guagnati grazie alle vendite di biglietti-->
+				{% if incassi != None %}
+					Totale incassi (per tutti i film): €{{ incassi }}
+				{% else %}
+					Totale incassi (per tutti i film): €0
+				{% endif %}	
+			</h2>
+		</div>
+	</div>
+	{% if cond == 0 %}<!--se ho appena raggiunto la pagina statistiche significa che voglio vedere i dati relativi alle 10 proiezioni più recenti. Per ciascuna di loro viene stampata una card con i relativi dati-->
+		{% for elem in primi_dieci %}
+			<div class="card-body">
+				<div class="card">
+                    <div class="card-header"><h4>{{ elem.inizio }}</h4></div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h5 class ="text-left">La proiezione in sala {{ elem.puntSala }} con il film {{ elem.titolo }} ha venduto {{ elem.nBiglietti }} biglietti con un ricavo totale di €{{ elem.ricavo }}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	{% else %}<!--se ho inserito parte del titolo del/dei film di cui si vogliono vedere le statistiche, mostro le statistiche di questo/i film-->
+		{% if stat != 1 %}<!--se la ricerca ha prodotto risultati, per ciascuno di loro viene stampata una card con i relativi dati-->
+			{% for elem in lista %}
+				{% if elem != None %}
+						<div class="card-body">
+							<div class="card">
+                                <div class="card-header"><h4>{{ elem.titolo }}</h4></div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col">
+											<h5 class ="text-left">Ha incassato in totale €{{ elem.sommaIncassi }}</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				{% endif %}
+			{% endfor %}
+		{% else %}<!--se la ricerca non ha prodotto risultati, lo segnalo-->
+			<h1>Al momento non sono presenti statistiche per il film cercato</h1>
+		{% endif %}
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "masterpage.html" %}
+
+{% block sottomasterpage %}
+
+	<div class="login-form"><!--form di login dove inserire le email e password per accedere all'area personale-->
+		<form action="/login" method="POST">
+			<h2 class="text-center">Login</h2>       
+			<div class="form-group">
+				<input name="email" type="email" class="form-control" placeholder="Email" required="required">
+			</div>
+			<div class="form-group">
+				<input name="pass" type="password" class="form-control" placeholder="Password" required="required" minlength="5">
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block">Accedi</button>
+			</div>
+			{% if cond == 1 %}<!--se la creazione dell'account è riuscita, lo segnalo-->
+				<script>alert("Account creato con successo");</script>
+			{% elif cond == 2 %}<!--se esiste già un account con la mail inserita, lo segnalo-->
+				<script>alert("Errore: la mail inserita esiste già");</script>
+			{% elif cond == 3 %}<!--se la login è falita a causa di email/password errata, lo segnalo-->
+				<script>alert("Errore: l'email o la password sono errate");</script>
+			{% endif %}
+		</form>
+		<center><a href= "/signup">Crea un account</a></center><!--rimanda ad una pagina che permette di creare un nuovo utente cliente-->
+	</div>
+
+{% endblock %}

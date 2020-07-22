@@ -1,0 +1,10 @@
+{% extends "mputente.html" %}
+
+{% block sottoutente %}
+
+    <!--semplice pagina di login riuscita richiamabile anche cliccando sul logo presente nella navbar-->
+    <div class="jumbotron">
+		<h1 class="display-4">Benvenuto {{ nome }} {{ cognome }}!</h1>
+        <p class="lead">Hai a disposizione €{{ conto }}</p>
+	</div>
+{% endblock %}

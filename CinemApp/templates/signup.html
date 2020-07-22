@@ -1,0 +1,28 @@
+{% extends "masterpage.html" %}
+
+{% block sottomasterpage %}
+
+	<div class="login-form"><!--form che permette di creare un nuovo utente cliente: richiede nome, cognome, email, password-->
+		<form action="/signup" method="POST">
+			<h2 class="text-center">Signup</h2>    
+			<div class="form-group">
+				<input name="nome" type="nome" class="form-control" placeholder="Nome" required="required">
+			</div>
+			<div class="form-group">
+				<input name="cognome" type="cognome" class="form-control" placeholder="Cognome" required="required">
+			</div>
+			<div class="form-group">
+				<input name="email" type="email" class="form-control" placeholder="Email" required="required">
+			</div>
+			<div class="form-group">
+				<input name="pass" type="password" class="form-control" placeholder="Password" required="required" minlength="5">
+			</div>
+			<!--di default l'utente creato non sarà un gestore, questi ultimi andranno aggiunti manualmente per sicurezza-->
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block">Iscriviti</button>
+			</div>   
+		</form>
+         <center><a href= "/">Indietro</a></center>
+	</div>
+
+{% endblock %}

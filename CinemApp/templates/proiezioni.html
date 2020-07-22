@@ -1,0 +1,81 @@
+{% extends "mpgestore.html" %}
+
+{% block sottogestore %}
+
+	<div class="jumbotron">
+		<h1 class="display-4">Proiezioni</h1>
+		<p class="lead">Lista delle prossime proiezioni (dalla più vicina in poi) con la possibilità di aggiungerne</p>
+	</div>
+	<form action="/proiezioni" method="POST">
+		<div class="col">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAggiungiProiezione"><!--cliccando qui, si aprirà un modal che permette di aggiungere una proiezione-->
+				Aggiungi proiezione
+			</button>
+		</div>
+		<div class="modal fade" id="modalAggiungiProiezione" tabindex="-1" role="dialog" aria-labelledby="labelAggiungiProiezione" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="labelAggiungiProiezione">Nuova proiezione</h5>
+					</div>
+					<div class="modal-body">
+						<p>
+							<small>Titolo: </small>
+							<input name="titoloFilm" class="form-control mr-sm-2" id="titoloFilm" type="search" placeholder="Titolo..." aria-label="Search"><!--qui bisogna inserire il nome del film-->
+						</p>
+						<p>
+							<small>Scegli sala: </small>
+							<select name="dropdownSala" title="Scegli sala..." id="dropdownSala"><!--qui bisogna selezionare la sala della proiezione tra quelle selezionabili-->
+								{% for o in sale %}
+									<option value="{{ o.idSala }}">{{ o.idSala }}</option>
+								{% endfor %}
+							</select>
+						</p>
+						<p>
+							<small>Inizio: </small>
+							<input name="inizio" type="datetime-local" id="inizio" max="9999-12-31T23:59"><!--qui bisogna specificare il momento d'inizio (antecedente all'orario/data attuale) della proiezione-->
+							<script>
+								window.addEventListener("load", function() {
+									var now = new Date();
+									var offset = now.getTimezoneOffset() * 60000;
+									var adjustedDate = new Date(now.getTime() - offset);
+									var formattedDate = adjustedDate.toISOString().substring(0,16);//formato yyyy-MM-aaThh:mm
+									var datetimeField = document.getElementById("inizio");
+									datetimeField.value = formattedDate;
+								});
+							</script>
+						</p>
+						<p>
+							<small>Prezzo in euro (solo parte intera):</small>
+  							<input type="number" name="prezzo" id="prezzo" min="1" max="100"><!--qui bisogna indicare la il prezzo (positiva, in euro) del film-->
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+						<button type="submit" class="btn btn-primary" onclick = "location.href = '/proiezioni';">Aggiungi</button><!--aggiungi la proiezione-->
+					</div>
+				</div>
+			</div>
+		</div>
+		{% for o in proiezioni %}<!--per ogni proiezione viene stampata una card con i relativi dati -->
+			<div class="card-body">
+				<div class="card">
+                    <div class="card-header"><h4>{{ o.titolo }}</h4></div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h5 class ="text-left">Sala: {{ o.puntSala }}<br>Inizio: {{ o.inizio }}<br> Prezzo di un biglietto: €{{ o.prezzo }}</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		{% if cond == 1 %}<!--se non esiste un film con quel titolo oppure il prezzo non è valido, lo segnalo-->
+			<script>alert("Errore: non esiste un film con quel titolo oppure il prezzo non è valido");</script>
+		{% elif cond == 2 %}<!--se la data/sala/orario non è disponibile, lo segnalo -->
+			<script>alert("Errore: la data/sala/orario non è disponibile");</script>
+		{% endif %}
+	</form>
+
+{% endblock %}

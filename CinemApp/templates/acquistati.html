@@ -1,0 +1,24 @@
+{% extends "mputente.html" %}
+
+{% block sottoutente %}
+
+	<div class="jumbotron">
+		<h1 class="display-4">Acquistati</h1>
+		<p class="lead">Biglietti acquistati per future proiezioni (dalla più vicina in poi)</p>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="card-deck">
+				{% for o in biglietti %}<!--per ogni biglietto stampa una card con i relativi dati-->
+					<div class="card" style="min-width: 18rem; max-width: 18rem;">
+						<div class="card-header"><h4>{{ o.titolo }}</h4></div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item"><h5>{{ o.inizio }}<br>Sala {{ o.puntSala }} fila {{ o.fila }} posto {{ o.numero }}<br>€{{ o.prezzo }}</h5></li>
+						</ul>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

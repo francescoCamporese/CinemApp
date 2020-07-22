@@ -1,0 +1,34 @@
+{% extends "masterpage.html" %}
+
+{% block sottomasterpage %}
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-secondary"><!--navbar che permette al gestore di fare la logout, di andare alla home cliccando sul logo e di spostarsi tra le 3 sezioni: lista film, proiezioni, statistiche-->
+		<a class="navbar-brand" href="/private">CinemApp</a>
+	  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#contenutoNavbar" aria-controls="contenutoNavbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+	  	</button>
+		<div class="collapse navbar-collapse" id="contenutoNavbar">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/listafilm">Lista film</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/proiezioni">Proiezioni</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/statistiche">Statistiche</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="nav-item">
+					<form action="/logout" method="POST" id="toLogout">
+						<a class="nav-link" onclick="document.getElementById('toLogout').submit()">Logout</a>
+					</form>
+				</li>
+			</ul>
+	  	</div>
+	</nav>
+	{% block sottogestore %}
+    {% endblock %}
+
+{% endblock %}

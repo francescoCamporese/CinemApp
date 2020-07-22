@@ -1,0 +1,64 @@
+{% extends "mpgestore.html" %}
+
+{% block sottogestore %}
+	<div class="jumbotron">
+		<h1 class="display-4">Lista film</h1>
+		<p class="lead">Lista dei film (ordinati per titolo) con la possibilità di aggiungerne</p>
+	</div>
+	<form action="/listafilm" method="POST">
+		<div class="col">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAggiungiFilm"><!--cliccando qui, si aprirà un modal che permette di aggiungere un film-->
+				Aggiungi film
+			</button>
+		</div>
+		<div class="modal fade" id="modalAggiungiFilm" tabindex="-1" role="dialog" aria-labelledby="labelAggiungiFilm" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="labelAggiungiFilm">Nuovo film</h5>
+					</div>
+					<div class="modal-body">
+						<p>
+							<small>Titolo: </small>
+							<input name="titoloFilm" class="form-control mr-sm-2" id="titoloFilm" type="search" placeholder="Titolo..." aria-label="Search"><!--qui bisogna inserire il nome del film-->
+						</p>
+						<p>
+							<small>Genere: </small>
+							<select name="dropdownGenere" title="Genere..." id="dropdownGenere"><!--qui bisogna selezionare il genere del film tra quelli selezionabili-->
+								{% for o in generi %}
+									<option value="{{ o.nomeGenere }}">{{ o.nomeGenere }}</option>
+								{% endfor %}
+							</select>
+						</p>
+						<p>
+							<small>Durata: </small>
+							<input name="durataFilm" id="durataFilm" type="number" min="1" max="500"><!--qui bisogna indicare la durata (positiva, in minuti) del film-->
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+						<button type="submit" class="btn btn-primary" onclick = "location.href = '/listafilm';">Aggiungi</button><!--aggiungi il film-->
+					</div>
+				</div>
+			</div>
+		</div>
+		{% for o in film %}<!--per ogni film viene stampata una card con i relativi dati -->
+			<div class="card-body">
+					<div class="card">
+                        <div class="card-header"><h4>{{ o.titolo }}</h4></div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col">
+									<h5 class ="text-left">Genere: {{ o.genere }}<br>Durata(min): {{ o.durata }}</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		{% endfor %}
+		{% if cond == False %}<!--se il titolo del film che ho provato ad aggiungere è vuoto oppure coincide con un film già esistente oppure la durata specificata è vuota, lo segnalo-->
+			<script>alert("Errore: titolo non idoneo (esiste già un film con quel titolo oppure il titolo e/o la durata sono vuoti)");</script>
+		{% endif %}
+	</form>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "mputente.html" %}
+ 
+{% block sottoutente %}
+ 
+    <div class="jumbotron">
+        <h1 class="display-4">Biglietteria</h1>
+        <p class="lead">Seleziona biglietti ed acquistali! Puoi vedere i biglietti disponibili per i film contenenti il testo cercato</p>
+    </div>
+    <form action="/biglietteria_cerca" method="POST"><!--inserire parte del titolo del/dei film di cui si vogliono acquistare biglietti-->
+        <div class="input-group">
+            <input name="filmCercato" class="form-control mr-sm-2" id="filmCercato" type="search" placeholder="Cerca film..." aria-label="Search" required="required">
+            <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit">Cerca</button>
+            </span>
+        </div>
+    </form>
+    {% if cond == 0 %}<!--se la ricerca ha prodotto risultati, per ogni biglietto viene stampata una card con i relativi dati ed un bottone che permette di acquistarlo-->
+        <h1>Risultati della ricerca</h1>
+        {% for o in biglietti %}
+            <div class="card-body">
+                <div class="card">
+                    <form action="{{ url_for('biglietteria_acquista', idB=o.idBiglietto) }}" method="POST" id="formAcquista{{o.idBiglietto}}" name="formAcquista{{o.idBiglietto}}">
+                        <div class="card-header"><h4>{{ o.titolo }}</h4></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class ="text-left">Inizio: {{ o.inizio }}<br>Sala {{ o.puntSala }} fila {{ o.fila }} posto {{ o.numero }} <div style="display: none;"> Biglietto <input name="idBiglietto{{ o.idBiglietto }}" id="idBiglietto{{ o.idBiglietto }}" value="{{ o.idBiglietto }}" type="text" readonly></div></h5>
+                                </div>
+                                <div class="col">
+                                    <h5 class ="text-right">
+                                        €<span id="prezzoBiglietto{{ o.idBiglietto }}">{{ o.prezzo }}</span>
+                                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modaleConfermaAcquisto"><!--acquista il biglietto-->
+                                            Compra
+                                        </button>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% elif cond == 1 %}<!--se la ricerca non ha prodotto risultati, lo segnalo-->
+        <script>alert("Errore: non ci sono biglietti/proiezioni disponibili oppure nessun film contiene la stringa cercata");</script>
+    {% elif cond == 2 %}<!--se non ho abbastanza soldi per acquistare il biglietto, lo segnalo-->
+        <script>alert("Errore: acquisto fallito a causa di credito insufficiente");</script>
+    {% endif %}
+
+{% endblock %}
